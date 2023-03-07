@@ -1,6 +1,7 @@
 package org.example;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Lending {
 
@@ -12,7 +13,7 @@ public class Lending {
 
     //+Lending(Book book, User user): ctor
     public Lending(Book book, User user) {
-        this.dueDate = LocalDate.now();
+        this.dueDate = LocalDate.now().plus(30, ChronoUnit.DAYS);
         this.book = book;
         this.user = user;
     }
