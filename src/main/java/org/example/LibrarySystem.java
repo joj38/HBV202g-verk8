@@ -18,7 +18,8 @@ public class LibrarySystem {
 
     }
 //+addBookWithTitleAndAuthorlist(String title, List<Author> authors): void
-    public void addBookWithTitleAndAuthorlist(String title, List<Author> authors){
+    public void addBookWithTitleAndAuthorlist(String title, List<Author> authors)throws EmptyAuthorListException{
+
         this.books.add(new Book(title, authors));
     }
 //+addStudentUser(String name, boolean feePaid): void
@@ -30,22 +31,22 @@ public class LibrarySystem {
         this.users.add(new FacultyMember(name, department));
     }
 //+findBookByTitle(String title): Book
-    public Book findBookByTitle(String title) throws BookNotFoundException {
+    public Book findBookByTitle(String title) throws UserOrBookDoesNotExistException {
         for (Book book : this.books) {
             if (book.getTitle().equals(title)) {
                 return book;
             }
         }
-       throw new BookNotFoundException(title);
+       throw new UserOrBookDoesNotExistException("Book with title " + title + " does not exist");
     }
 //+findUserByName(String name): User
-    public User findUserByName(String name) throws  {
+    public User findUserByName(String name) throws UserOrBookDoesNotExistException  {
         for (User user : this.users) {
             if (user.getName().equals(name)) {
                 return user;
             }
         }
-        throw new
+        throw new UserOrBookDoesNotExistException("User with name " + name + " does not exist");
     }
 //+borrowBook(User user, Book book): void
     public void borrowBook(User user, Book book) {
@@ -55,7 +56,15 @@ public class LibrarySystem {
     }
 //+extendLending(FacultyMember facultyMember, Book book, LocalDate newDueDate): void
     public void extendLending(FacultyMember facultyMember, Book book, LocalDate newDueDate) {
-
+        for (User user : this.users){
+            if (user.getName().equals(facultyMember.getName()) && user instanceof FacultyMember){
+                for (Lending lending : this.lendings){
+                    if (lending.getBook().getTitle().equals(book.getTitle())){//works if title is unique
+                        lending.setDueDate(newDueDate);
+                    }
+                }
+            }
+        }
     }
 //+returnBook(User user, Book book): void
     public void returnBook(User user, Book book) {

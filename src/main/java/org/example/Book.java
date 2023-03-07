@@ -8,7 +8,7 @@ public class Book {
     private List<Author> authors;
 
     //+Book(String title, List<Author> authors): ctor
-    public Book(String title, List<Author> authors) {
+    public Book(String title, List<Author> authors)throws EmptyAuthorListException{
         this.title = title;
         this.authors = authors;
     }
